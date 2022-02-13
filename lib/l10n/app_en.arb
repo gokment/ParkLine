@@ -1,0 +1,58 @@
+{
+  "@about": {
+    "description": "Programmer question3"
+  },
+  "@account": {
+    "description": "Programmer question4"
+  },
+  "@confirmBtn": {
+    "description": "Programmer button choice"
+  },
+  "@hi": {
+    "description": "Programmer greeting"
+  },
+  "@history": {
+    "description": "Drawer sign out button"
+  },
+  "@hour": {
+    "description": "Hour choice"
+  },
+  "@hourlyChoice": {
+    "description": "Programmer question1"
+  },
+  "@lang": {
+    "description": "Programmer question5"
+  },
+  "@language": {
+    "description": "The current language"
+  },
+  "@month": {
+    "description": "Month choice"
+  },
+  "@park": {
+    "description": "Programmer question2"
+  },
+  "@signout": {
+    "description": "Programmer question6"
+  },
+  "@vehiculeChoice": {
+    "description": "Programmer question7"
+  },
+  "@week": {
+    "description": "Week choice"
+  },
+  "about": "About",
+  "account": "My Account",
+  "confirmBtn": "Confirm",
+  "hi": "Hi",
+  "history": "Parking History",
+  "hour": "Hour",
+  "hourlyChoice": "Choose your hourly rate",
+  "lang": "Change to french",
+  "language": "English",
+  "month": "Month",
+  "park": "Do you want to park at",
+  "signout": "Sign Out",
+  "vehiculeChoice": "Choose your vehicule type",
+  "week": "Week"
+}

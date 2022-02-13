@@ -1,0 +1,58 @@
+{
+  "@about": {
+    "description": "Question3"
+  },
+  "@account": {
+    "description": "Question4"
+  },
+  "@confirmBtn": {
+    "description": "Boutton confirmer"
+  },
+  "@hi": {
+    "description": "Salutations du programmeur"
+  },
+  "@history": {
+    "description": "Boutton de deconnexion du menu"
+  },
+  "@hour": {
+    "description": "Choix horaire"
+  },
+  "@hourlyChoice": {
+    "description": "Question1"
+  },
+  "@lang": {
+    "description": "Question5"
+  },
+  "@language": {
+    "description": "Langue active"
+  },
+  "@month": {
+    "description": "Choix du mois"
+  },
+  "@park": {
+    "description": "Question2"
+  },
+  "@signout": {
+    "description": "Question6"
+  },
+  "@vehiculeChoice": {
+    "description": "Question3"
+  },
+  "@week": {
+    "description": "Choix de la semaine"
+  },
+  "about": "A Propos",
+  "account": "Mon compte",
+  "confirmBtn": "Confirmer",
+  "hi": "Salut",
+  "history": "Historique",
+  "hour": "Heure",
+  "hourlyChoice": "Choix horaire",
+  "lang": "Mettre en anglais",
+  "language": "Francais",
+  "month": "Mois",
+  "park": "Voulez vous stationner a",
+  "signout": "Deconnexion",
+  "vehiculeChoice": "Chousissez votre type de vehicule",
+  "week": "Semaine"
+}

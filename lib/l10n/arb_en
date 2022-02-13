@@ -1,0 +1,59 @@
+{     "language": "English",
+    "@language":{
+        "description": "The current language"
+    },
+    "hi": "Hi",
+    "@hi":{
+        "description": "Programmer greeting"
+    },
+    "park": "Do you want to park at",
+    "@park":{
+        "description": "Programmer question1"
+    },
+    "vehiculeChoice": "Choose your vehicule type",
+    "@vehiculeChoice":{
+        "description": "Programmer question1"
+    },
+    "hourlyChoice": "Choose your hourly rate",
+    "@hourlyChoice":{
+        "description": "Programmer question1"
+    },
+    "confirmBtn": "Confirm",
+    "@confirmBtn":{
+        "description": "Programmer button choice"
+    },
+    "hour": "Hour",
+    "@hour":{
+        "description": "Hour Choice"
+    },
+    "week": "Week",
+    "@week":{
+        "description": "Week choice"
+    },
+    "month": "Month",
+    "@month":{
+        "description": "Month choice"
+    },
+    "history": "Parking History",
+    "@history":{
+        "description": "Drawer history button"
+    },
+    "account": "My Account",
+    "@history":{
+        "description": "Drawer account button"
+    },
+    "lang": "Change to french",
+    "@history":{
+        "description": "Drawer language button"
+    },
+    "about": "About",
+    "@history":{
+        "description": "Drawer about button"
+    },
+    "signout": "Sign Out",
+    "@history":{
+        "description": "Drawer sign out button"
+    }
+        "description": "Drawer sign out button"
+    }
+}

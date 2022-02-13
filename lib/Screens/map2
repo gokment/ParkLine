@@ -1,0 +1,260 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:parkline/Blocs/Application_Blocs.dart';
+import 'package:parkline/Const/const.dart';
+import 'package:parkline/Model/markers.dart';
+import 'package:parkline/Widgets/Drawer_Widget.dart';
+import 'package:parkline/Widgets/buildSheet.dart';
+import 'package:provider/provider.dart';
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // List <dynamic> marksPlace;
+  var marksPlace = new Map();
+  CollectionReference markerCol =
+      FirebaseFirestore.instance.collection('markers');
+
+  GoogleMapController mapController; //contrller for Google map
+  final Set<Marker> markers = new Set(); //markers for google map
+  // static const LatLng showLocation = const LatLng(27.7089427, 85.3086209); //location to show in map
+  static const LatLng showLocation = const LatLng(3.8761350383069670,
+      11.5114653114869725); //location to show in map (Cameroun)
+
+  @override
+  Widget build(BuildContext context) {
+    final applicatioBloc = Provider.of<ApplicationBlocs>(context);
+    return Scaffold(
+      // extendBodyBehindAppBar: true,
+      drawer: DrawerWidget(),
+      appBar: AppBar(
+        // backgroundColor: Colors.transparent,
+        // elevation: 0,
+        title: Text("ParkLine"),
+        // title: Text("ParkLine", style: TextStyle(color: Colors.blueAccent),),
+        actions: [
+          // RaisedButton(
+          //   child: Text("Sheet"),
+          //   onPressed: () {
+          //     showModalBottomSheet(
+          //       // enableDrag: false,
+          //       // isDismissible: false,
+          //       backgroundColor: Colors.transparent,
+          //       context: context,
+          //       builder: (context) => BuildSheetWidget(),
+          //     );
+          //   },
+          // )
+        ],
+      ),
+      body: LoadMap(),
+    );
+  }
+
+  Future<void> getData() async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await markerCol.get();
+
+    // Get data from docs and convert map to List
+    querySnapshot.docs.map((DocumentSnapshot document) {
+      // final allData = querySnapshot.docs.map((DocumentSnapshot document) {
+      document.data();
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+      // print(data['place']);
+
+      setState(() {
+        marksPlace["place"] = data['place'];
+        marksPlace["coords"] = data['coords'];
+      });
+      // print(marksPlace["place"]);
+// Map<dynamic, dynamic> result = data;
+//   Map<String, dynamic> dat = Map<String, dynamic>();
+//       for (dynamic type in result.keys) {
+//     dat[type.toString()] = result[type];
+//   }
+//   print(dat);
+//   print(dat['place']);
+      // print(dat['window']['title']);
+
+      // setState(() {
+      //   marks.add(MarkersM.fromJson(data));
+      // });
+
+      // print(marks);
+
+      return marksPlace;
+    }).toList();
+
+    // return datas;
+    print(marksPlace['place']);
+    
+    // print(allData.toString());
+    // Map map = allData.asMap();
+//  print(map[0]["place"]);
+    // return map;
+    // return allData.toString();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    super.initState();
+  }
+
+  Widget LoadMap() {
+    // getData();
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection("markers").snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+
+        return ListView(
+          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+          markers.add(
+          Marker(
+            //add second marker
+            markerId: MarkerId(showLocation.toString()),
+            position: LatLng(data["coords"].latitude,
+                data["coords"].longitude), //position of marker
+            infoWindow: InfoWindow(
+              //popup info
+              title: data["place"],
+              snippet: 'My Custom Subtitle',
+            ),
+            icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+            onTap: () {
+              getData();
+              print(snapshot.data.docs.length);
+              showModalBottomSheet(
+                // enableDrag: false,
+                // isDismissible: false,
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (context) => BuildSheetWidget(),
+              );
+            },
+          ),
+        );
+            return  GoogleMap(
+          //Map widget from google_maps_flutter package
+          zoomGesturesEnabled: true, //enable Zoom in, out on map
+          initialCameraPosition: CameraPosition(
+            //innital position in map
+            target: showLocation, //initial position
+            zoom: 15.0, //initial zoom level
+          ),
+          markers: markers, //markers to show on map
+          mapType: MapType.normal, //map type
+          onMapCreated: (controller) {
+            //method called when map is created
+            setState(
+              () {
+                mapController = controller;
+              },
+            );
+          },
+        );
+            //  ListTile(
+            //   title: Text(data['full_name']),
+            //   subtitle: Text(data['company']),
+            // );
+          }).toList(),
+        );
+      },
+    );
+  }
+
+  Set<Marker> getmarkers() {
+    //markers to place on map
+    setState(() {
+      LoadMap();
+      markers.add(
+        Marker(
+          //add first marker
+          markerId: MarkerId(showLocation.toString()),
+          position: showLocation, //position of marker
+          infoWindow: InfoWindow(
+            //popup info
+            title: 'Marker Title First ',
+            snippet: 'My Custom Subtitle',
+          ),
+          icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+          onTap: () {
+            showModalBottomSheet(
+              // enableDrag: false,
+              // isDismissible: false,
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (context) => BuildSheetWidget(),
+            );
+          },
+        ),
+      );
+
+      markers.add(
+        Marker(
+          //add second marker
+          markerId: MarkerId(showLocation.toString()),
+          position: LatLng(27.7099116, 85.3132343), //position of marker
+          infoWindow: InfoWindow(
+            //popup info
+            title: 'Marker Title Second ',
+            snippet: 'My Custom Subtitle',
+          ),
+          icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+          onTap: () {
+            showModalBottomSheet(
+              // enableDrag: false,
+              // isDismissible: false,
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (context) => BuildSheetWidget(),
+            );
+          },
+        ),
+      );
+
+      markers.add(
+        Marker(
+          //add third marker
+          markerId: MarkerId(showLocation.toString()),
+          position: LatLng(27.7137735, 85.315626), //position of marker
+          infoWindow: InfoWindow(
+            //popup info
+            title: 'Marker Title Third ',
+            snippet: 'My Custom Subtitle',
+          ),
+          icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+          onTap: () {
+            showModalBottomSheet(
+              // enableDrag: false,
+              // isDismissible: false,
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (context) => BuildSheetWidget(),
+            );
+          },
+        ),
+      );
+      //add more markers here
+    });
+
+    return markers;
+  }
+}
+
+// target: LatLng(3.8761350383069670, 11.5114653114869725), Cameroon
